@@ -27,6 +27,7 @@ class User extends Authenticatable
         'name',
         'email',
         'phone',
+        'address',
         'password',
     ];
 
@@ -61,7 +62,7 @@ class User extends Authenticatable
     ];
 
     public function products(){
-        if($this->user_type == 'manager'){
+        if($this->user_type == 'vendor'){
             return $this->hasMany(Product::class, 'vendor_id');
         }
     }
