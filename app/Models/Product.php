@@ -9,6 +9,10 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $with = [
+        'categories'
+    ];
+
     protected $fillable = [
         'slug',
         'title',
@@ -19,6 +23,8 @@ class Product extends Model
         'vendor_id',
 
     ];
+
+    
 
     public function categories(){
         return $this->belongsToMany(Category::class);
