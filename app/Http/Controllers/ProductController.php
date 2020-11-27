@@ -14,9 +14,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-        return response($products, 200);
-        echo "Product List";
+        $products = Product::with('categories')->orderBy('created_at')->get();
+        return $products->toJson();
     }
 
     /**

@@ -9,9 +9,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Category extends Model
 {
     use HasFactory;
-    // protected $with = [
-    //     'products'
-    // ];
+    
+
     protected $fillable = [
         'slug',
         'title'
