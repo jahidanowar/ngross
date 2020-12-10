@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
+use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -26,21 +27,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::resource('product', ProductController::class);
 Route::resource('category', CategoryController::class);
 
-Route::post('/login', function(Request $request){
+Route::post('/login', function (Request $request) {
 
-    $user = User::where('email', $request->email)->first();
-    if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
-
+    $user = User::where('email', $request->username)->first();
+    if (Auth::attempt(['email' => $request->username, 'password' => $request->password])) {
         return $user->createToken('logedin')->plainTextToken;
-    }else{
+    } else {
         $response = [
             'success' => false,
             'message' => 'User name or password is wrong'
         ];
-        return json_encode($response);
+        return response()->json($response, 401);
     }
 });
 
-Route::get('/check-auth', function(){
+Route::get('/check-auth', function () {
     return Auth::check() ? "Authenticated" : "Not authenticated";
 })->middleware('auth:sanctum');
