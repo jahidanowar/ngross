@@ -45,6 +45,8 @@ Route::post('/login', function (Request $request) {
     }
 });
 
+Route::post('/order/store', [OrderController::class, 'store']);
+
 Route::get('/check-auth', function () {
     return Auth::check() ? "Authenticated" : "Not authenticated";
 })->middleware('auth:sanctum');
