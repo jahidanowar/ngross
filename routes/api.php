@@ -31,7 +31,11 @@ Route::post('/login', function (Request $request) {
 
     $user = User::where('email', $request->username)->first();
     if (Auth::attempt(['email' => $request->username, 'password' => $request->password])) {
-        return $user->createToken('logedin')->plainTextToken;
+        $response = [
+            'user' => $user,
+            'token' => $user->createToken('logedin')->plainTextToken,
+        ];
+        return response()->json($response, 200);
     } else {
         $response = [
             'success' => false,
