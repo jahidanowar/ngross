@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\OrderProduct;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -35,7 +36,22 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        $orderData = [
+            'order_number' => 'NGO23',
+            'status' => "Order Placed",
+            'total_amount' => $request->total,
+            'user_id' => auth()->user()->id,
+        ];
+
+        $order = Order::create($orderData);
+
+        $products = $request->products;
+
+        foreach ($products as $productId) {
+            OrderProduct::create(['order_id' => $order->id, 'product_id' => $productId, 'quantity'=>1]);
+        }
+
+        dd($order);
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
@@ -45,8 +46,10 @@ Route::post('/login', function (Request $request) {
     }
 });
 
-Route::post('/order/store', [OrderController::class, 'store']);
-
 Route::get('/check-auth', function () {
     return Auth::check() ? "Authenticated" : "Not authenticated";
 })->middleware('auth:sanctum');
+
+
+//Order Route
+Route::post('/order/store', [OrderController::class, 'store'])->middleware('auth:sanctum');
