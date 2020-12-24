@@ -61,6 +61,11 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+
+    public function orders(){
+       return $this->hasMany(Order::class, 'user_id');
+    }
+
     public function products(){
         if($this->user_type == 'vendor'){
             return $this->hasMany(Product::class, 'vendor_id');

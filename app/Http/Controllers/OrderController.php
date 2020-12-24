@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\OrderProduct;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -15,7 +16,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        return auth()->user()->orders()->with('products')->orderBy('id', 'DESC')->get();
     }
 
     /**
@@ -37,21 +38,26 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $orderData = [
-            'order_number' => 'NGO23',
             'status' => "Order Placed",
             'total_amount' => $request->total,
             'user_id' => auth()->user()->id,
         ];
 
         $order = Order::create($orderData);
+        $order->order_number = "NGO" . $order->id;
+        $order->save();
 
-        $products = $request->products;
+        $products = $request->cartItems;
 
-        foreach ($products as $productId) {
-            OrderProduct::create(['order_id' => $order->id, 'product_id' => $productId, 'quantity'=>1]);
+        foreach ($products as $product) {
+            OrderProduct::create(['order_id' => $order->id, 'product_id' => $product['id'], 'quantity' => $product['quantity']]);
         }
 
-        dd($order);
+        $response = [
+            "message" => "Order Placed",
+            "order" => $order
+        ];
+        return response()->json($response, 201);
     }
 
     /**
@@ -62,7 +68,17 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
+        $order = $order->with('products')->get();
+
+        if (!$order) {
+            $response = [
+                "message" => "Orders Not found"
+            ];
+            return response()->json($response, 404);
+        } else {
+            $response = $order;
+            return response()->json($response, 200);
+        }
     }
 
     /**
@@ -73,7 +89,6 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        //
     }
 
     /**
