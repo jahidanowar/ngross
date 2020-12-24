@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\OrderProduct;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -49,8 +50,13 @@ class OrderController extends Controller
 
         $products = $request->cartItems;
 
+        // Saving the Ordered Items
         foreach ($products as $product) {
             OrderProduct::create(['order_id' => $order->id, 'product_id' => $product['id'], 'quantity' => $product['quantity']]);
+            //Decrease the stock
+            $dbproduct = Product::find($product['id']);
+            $dbproduct->stock -=  $product['quantity'];
+            $dbproduct->save();
         }
 
         $response = [
