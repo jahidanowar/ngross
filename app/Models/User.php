@@ -78,8 +78,11 @@ class User extends Authenticatable
     {
         $result = [];
         foreach ($this->products as $product) {
-            $orders = OrderProduct::where('product_id', $product->id)->where('status', 0)->orderBy('created_at', 'ASC')->get();
-            if ($orders) {
+            $orders = OrderProduct::where([
+                ['product_id', '=', $product->id],
+                ['status', '=', 0],
+            ])->orderBy('created_at', 'ASC')->get();
+            if (count($orders) > 0) {
                 $quantity = 0;
                 foreach ($orders as $order) {
                     $quantity += $order->quantity;

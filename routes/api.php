@@ -65,4 +65,4 @@ Route::get('/profile', function () {
 
 Route::get('/vendor/product', [VendorController::class, 'products'])->middleware("auth:sanctum");
 Route::get('/vendor/order', [VendorController::class, 'orders'])->middleware("auth:sanctum");
-Route::patch('/vendor/product/{id}', [VendorController::class, 'productUpdate'])->middleware("auth:sanctum");
+Route::patch('/vendor/product', [VendorController::class, 'productUpdate'])->middleware("auth:sanctum");

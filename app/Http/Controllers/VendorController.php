@@ -13,16 +13,19 @@ class VendorController extends Controller
         return auth()->user()->products()->orderBy('id', 'DESC')->get();
     }
     //Return All the orders that related to vendor
-    public function orders(){
+    public function orders()
+    {
         return auth()->user()->vendorOrders();
     }
 
     //Update Product
-    public function productUpdate(Request $request, $id)
+    public function productUpdate(Request $request)
     {
-        $product = Product::find($id);
+        $product = Product::find($request->id);
         if ($product) {
             $product->stock = $request->stock;
+            $product->price = $request->price;
+            $product->title = $request->title;
             $product->save();
             $response = [
                 "message" => "Product Updated"
