@@ -46,6 +46,13 @@ Route::post('/login', function (Request $request) {
         return response()->json($response, 401);
     }
 });
+Route::post('/logout', function (Request $request) {
+    // Get user who requested the logout
+    $user =  auth()->user();
+    // Revoke current user token
+    $user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
+
+})->middleware('auth:sanctum');
 
 
 //Guared by Sanctum auth
