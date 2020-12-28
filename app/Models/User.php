@@ -76,6 +76,8 @@ class User extends Authenticatable
 
     public function vendorOrders()
     {
+        // https://stackoverflow.com/questions/54444592/laravel-eloquent-get-a-record-every-hour
+        //https://laracasts.com/discuss/channels/laravel/count-rows-grouped-by-hours-of-the-day
         $result = [];
         foreach ($this->products as $product) {
             $orders = OrderProduct::where([
