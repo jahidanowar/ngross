@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VendorController;
 use App\Models\User;
 use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
@@ -57,6 +58,11 @@ Route::post('/login', function (Request $request) {
 
 Route::resource('/order', OrderController::class)->middleware('auth:sanctum');
 
-Route::get('/profile', function(){
+Route::get('/profile', function () {
     return auth()->user();
 })->middleware("auth:sanctum");
+
+
+Route::get('/vendor/product', [VendorController::class, 'products'])->middleware("auth:sanctum");
+Route::get('/vendor/order', [VendorController::class, 'orders'])->middleware("auth:sanctum");
+Route::patch('/vendor/product/{id}', [VendorController::class, 'productUpdate'])->middleware("auth:sanctum");

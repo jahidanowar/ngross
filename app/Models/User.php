@@ -62,13 +62,37 @@ class User extends Authenticatable
     ];
 
 
-    public function orders(){
-       return $this->hasMany(Order::class, 'user_id');
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'user_id');
     }
 
-    public function products(){
-        if($this->user_type == 'vendor'){
+    public function products()
+    {
+        if ($this->user_type == 'vendor') {
             return $this->hasMany(Product::class, 'vendor_id');
         }
+    }
+
+    public function vendorOrders()
+    {
+        $result = [];
+        foreach ($this->products as $product) {
+            $orders = OrderProduct::where('product_id', $product->id)->where('status', 0)->orderBy('created_at', 'ASC')->get();
+            if ($orders) {
+                $quantity = 0;
+                foreach ($orders as $order) {
+                    $quantity += $order->quantity;
+                }
+                $response = array(
+                    "product_id" => $product->id,
+                    "product_name" => $product->title,
+                    "quantity" => $quantity,
+                    "orders" => $orders,
+                );
+                array_push($result, $response);
+            }
+        }
+        return $result;
     }
 }
