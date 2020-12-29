@@ -31,10 +31,11 @@
 
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-            <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-laugh-wink"></i>
+            <div class="sidebar-brand-icon">
+                {{-- <i class="fas fa-laugh-wink"></i> --}}
+                <img src="https://i.ibb.co/qmgLdwq/logo.png" alt="logo" border="0" width="30px" height="30px">
             </div>
-            <div class="sidebar-brand-text mx-3">NGROSS <sup>Panel</sup></div>
+            <div class="sidebar-brand-text mx-3">NGROSS <sup>1.0</sup></div>
         </a>
 
         <!-- Divider -->
@@ -56,20 +57,12 @@
         </div>
 
         <!-- Nav Item - Profile -->
-        <li class="nav-item {{ Nav::isRoute('profile') }}">
-            <a class="nav-link" href="{{ route('profile') }}">
+        {{-- <li class="nav-item {{ Nav::isRoute('profile.show') }}">
+            <a class="nav-link" href="{{ route('profile.show') }}">
                 <i class="fas fa-fw fa-user"></i>
                 <span>{{ __('Profile') }}</span>
             </a>
-        </li>
-
-        <!-- Nav Item - About -->
-        <li class="nav-item {{ Nav::isRoute('about') }}">
-            <a class="nav-link" href="{{ route('about') }}">
-                <i class="fas fa-fw fa-hands-helping"></i>
-                <span>{{ __('About') }}</span>
-            </a>
-        </li>
+        </li> --}}
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
@@ -246,7 +239,7 @@
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="{{ route('profile') }}">
+                            <a class="dropdown-item" href="{{ route('profile.show') }}">
                                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                 {{ __('Profile') }}
                             </a>
@@ -286,7 +279,7 @@
         <footer class="sticky-footer bg-white">
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
-                    <span>Copyright &copy; Alejandro RH 2020</span>
+                    <span>Copyright &copy; Foxflue Network Pvt. Ltd.</span>
                 </div>
             </div>
         </footer>
