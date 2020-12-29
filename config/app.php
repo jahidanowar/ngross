@@ -167,6 +167,7 @@ return [
          */
         DevMarketer\EasyNav\EasyNavServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
+        Yajra\DataTables\ButtonsServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -233,7 +234,7 @@ return [
 
         //Package Aliases
         'Nav' => DevMarketer\EasyNav\EasyNavFacade::class,
-
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
     ],
 
 ];
