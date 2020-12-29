@@ -20,7 +20,8 @@
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
 
     <!-- Favicon -->
-    <link href="{{ asset('img/favicon.png') }}" rel="icon" type="image/png">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 </head>
 <body id="page-top">
 
@@ -33,7 +34,7 @@
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
             <div class="sidebar-brand-icon">
                 {{-- <i class="fas fa-laugh-wink"></i> --}}
-                <img src="https://i.ibb.co/qmgLdwq/logo.png" alt="logo" border="0" width="30px" height="30px">
+                <img src="{{asset('img/logo.png')}}" alt="logo" border="0" width="30px" height="30px">
             </div>
             <div class="sidebar-brand-text mx-3">NGROSS <sup>1.0</sup></div>
         </a>
@@ -51,10 +52,31 @@
         <!-- Divider -->
         <hr class="sidebar-divider">
 
+        <li class="nav-item {{ Nav::isRoute('product.index') }}">
+            <a class="nav-link" href="{{ route('product.index') }}">
+                <i class="fas fa-tag"></i>
+                <span>{{ __('Product') }}</span>
+            </a>
+        </li>
+
+        <li class="nav-item {{ Nav::isRoute('order.index') }}">
+            <a class="nav-link" href="{{ route('order.index') }}">
+                <i class="fas fa-cart-arrow-down"></i>
+                <span>{{ __('Order') }}</span>
+            </a>
+        </li>
+
+        <li class="nav-item {{ Nav::isRoute('user.index') }}">
+            <a class="nav-link" href="{{ route('user.index') }}">
+                <i class="fas fa-fw fa-user"></i>
+                <span>{{ __('User') }}</span>
+            </a>
+        </li>
+
         <!-- Heading -->
-        <div class="sidebar-heading">
+        {{-- <div class="sidebar-heading">
             {{ __('Settings') }}
-        </div>
+        </div> --}}
 
         <!-- Nav Item - Profile -->
         {{-- <li class="nav-item {{ Nav::isRoute('profile.show') }}">
@@ -65,7 +87,7 @@
         </li> --}}
 
         <!-- Divider -->
-        <hr class="sidebar-divider d-none d-md-block">
+        {{-- <hr class="sidebar-divider d-none d-md-block"> --}}
 
         <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
