@@ -166,6 +166,7 @@ return [
          * Package Service Providers...
          */
         DevMarketer\EasyNav\EasyNavServiceProvider::class,
+        Yajra\DataTables\DataTablesServiceProvider::class,
 
         /*
          * Application Service Providers...
