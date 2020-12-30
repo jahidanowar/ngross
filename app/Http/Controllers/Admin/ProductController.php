@@ -4,11 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use DataTables;
 
 class ProductController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware(['auth:sanctum', 'admin']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -74,9 +81,10 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
-        //
+        $vendors = User::where('user_type', 'vendor')->get();
+        return view('admin.product.edit', ['product' => $product, 'vendors' => $vendors]);
     }
 
     /**
@@ -88,7 +96,16 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'title' => 'required|string',
+            'price' => 'required|numeric',
+            'stock' => 'required|numeric',
+            'vendor_id' => 'required'
+        ]);
+
+        Product::where('id', $id)->update($request->only(['title', 'price', 'stock', 'vendor_id']));
+
+        return redirect()->back()->with('message', 'Product has been updated');
     }
 
     /**
