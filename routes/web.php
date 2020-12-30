@@ -27,6 +27,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::resource('product', ProductController::class);
+// Route::delete('product/delete', [ProductController::class, 'destroy'])->name('product.delete');
 Route::resource('order', OrderController::class);
 Route::resource('user', UserController::class);
 Route::get('getproductlist', [ProductController::class, 'getProducts'])->name('product.list');

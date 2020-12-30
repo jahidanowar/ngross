@@ -34,7 +34,15 @@ class ProductController extends Controller
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $actionBtn = '<a href="' . route('product.edit', $row->id) . '" class="edit btn btn-info btn-sm">Edit</a> <a href="' . route('product.destroy', $row->id) . '" class="delete btn btn-danger btn-sm">Delete</a>';
+                    $actionBtn = '<a href="' . route('product.edit', $row->id) . '" class="edit btn btn-info">Edit</a>
+
+                    <form action="' . route('product.destroy', $row->id) . '" method="POST" onsubmit="return confirm(\' Are you sure? \')" style="display: inline-block;">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="'.csrf_token().'">
+                        <input type="submit" class="btn btn-xs btn-danger" value="Delete">
+                    </form>
+
+                    ';
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])
@@ -116,6 +124,9 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::find($id);
+        $product->delete();
+        return redirect()->back()->with('message', 'Product has been deleted');
+
     }
 }

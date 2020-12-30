@@ -19,6 +19,10 @@
         </div>
     @endif
 
+    @if(Session::has('message'))
+        <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
+    @endif
+
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">All Products</h6>
@@ -49,6 +53,7 @@
 <script src="{{asset('vendor/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
 <script>
+
 $(document).ready(function() {
     $('#dataTable').DataTable({
         processing: true,
@@ -68,7 +73,9 @@ $(document).ready(function() {
             },
         ]
     });
+
 });
+
 </script>
 @endpush
 {{-- @section('scripts')
