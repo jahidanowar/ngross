@@ -23,14 +23,15 @@ class ProductController extends Controller
     public function getProducts(Request $request)
     {
         if ($request->ajax()) {
-            $data = Product::latest()->get();
+            $data = Product::with('user')->latest()->get();
             return Datatables::of($data)
                 ->addIndexColumn()
-                ->addColumn('action', function($row){
-                    $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-info btn-sm">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
+                ->addColumn('action', function ($row) {
+                    $actionBtn = '<a href="' . route('product.edit', $row->id) . '" class="edit btn btn-info btn-sm">Edit</a> <a href="' . route('product.destroy', $row->id) . '" class="delete btn btn-danger btn-sm">Delete</a>';
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])
+                ->editColumn('price', '₹ {{$price}}')
                 ->make(true);
         }
     }

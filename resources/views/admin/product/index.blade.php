@@ -59,7 +59,7 @@ $(document).ready(function() {
             {data: 'title', name: 'title'},
             {data: 'price', name: 'price'},
             {data: 'stock', name: 'stock'},
-            {data: 'vendor_id', name: 'vendor_id'},
+            {data: 'user.name', name: 'vendor'},
             {
                 data: 'action',
                 name: 'action',
