@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use DataTables;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -58,7 +59,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('admin.product.create');
+        $vendors = User::where('user_type', 'vendor')->get();
+        return view('admin.product.create', compact('vendors'));
     }
 
     /**
@@ -69,7 +71,27 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|string',
+            'price' => 'required|numeric',
+            'stock' => 'required|numeric',
+            'image' => 'required|file|max:150',
+            'vendor_id' => 'required',
+        ]);
+
+
+        $imagePath = $request->file('image')->store('product/'. Str::random(10).$request->image->extension());
+        $slug = Str::slug($request->title);
+
+        $product = Product::create([
+            'title' => $request->title,
+            'price' => $request->price,
+            'stock' => $request->stock,
+            'vedor_id' => $request->vedor_id,
+            'image' => $imagePath,
+            'slug' => $slug,
+        ]);
+        return redirect()->back()->with('message', 'Product has been created');
     }
 
     /**
