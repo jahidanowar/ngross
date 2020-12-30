@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\DataTables\ProductsDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use DataTables;
 
 class ProductController extends Controller
 {
@@ -14,10 +14,25 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(ProductsDataTable $dataTable)
+    public function index()
     {
-        return $dataTable->render('admin.product.index');
-        // return view('admin.product.index', compact('products'));
+        $products = [];
+        return view('admin.product.index', compact('products'));
+    }
+
+    public function getProducts(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Product::latest()->get();
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function($row){
+                    $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-info btn-sm">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
+                    return $actionBtn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
     }
 
     /**

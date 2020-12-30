@@ -29,4 +29,5 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::resource('product', ProductController::class);
 Route::resource('order', OrderController::class);
 Route::resource('user', UserController::class);
+Route::get('getproductlist', [ProductController::class, 'getProducts'])->name('product.list');
 

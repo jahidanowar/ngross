@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('styles')
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="{{asset('/vendor/datatables/dataTables.bootstrap4.min.css')}}">
 @endsection
 
 @section('main-content')
@@ -24,16 +24,52 @@
             <h6 class="m-0 font-weight-bold text-primary">All Products</h6>
         </div>
         <div class="card-body">
-            {{-- <table class="table table-responsive"></table> --}}
-            {{$dataTable->table()}}
+            <table id="dataTable" class="table table-bordered dataTable" style="width: 100%;" width="100%">
+                <thead>
+                    <tr>
+                        <th>SL/N</th>
+                        <th>Title</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Vendor</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
         </div>
     </div>
 
 @endsection
 
 @push('scripts')
-    <script src="//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-    {{$dataTable->scripts()}}
+<!-- Page level plugins -->
+<script src="{{asset('vendor/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+<script>
+$(document).ready(function() {
+    $('#dataTable').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route('product.list') }}",
+        columns: [
+            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'title', name: 'title'},
+            {data: 'price', name: 'price'},
+            {data: 'stock', name: 'stock'},
+            {data: 'vendor_id', name: 'vendor_id'},
+            {
+                data: 'action',
+                name: 'action',
+                orderable: true,
+                searchable: true
+            },
+        ]
+    });
+});
+</script>
 @endpush
 {{-- @section('scripts')
 <script src="//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
