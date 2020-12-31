@@ -85,10 +85,7 @@ class ProductController extends Controller
             'image' => 'required|file|mimes:png,jpg,jpeg|max:150',
             'vendor_id' => 'required|numeric|min:1',
         ]);
-
-        // dd($request->image);
         $imagePath = $request->file('image')->store('public/product');
-        // return dd($imagePath);
         $slug = Str::slug($request->title);
 
         $product = Product::create([
@@ -107,18 +104,6 @@ class ProductController extends Controller
 
         return redirect()->back()->with('message', 'Product has been created');
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -152,14 +137,11 @@ class ProductController extends Controller
             'stock' => 'required|numeric',
             'vendor_id' => 'required'
         ]);
-
         $product = Product::where('id', $id)->update($request->only(['title', 'price', 'stock', 'vendor_id']));
-
         if($request->categories && $product){
             $product = Product::find($id);
             $product->categories()->sync($request->categories);
         }
-
         return redirect()->route('product.index')->with('message', 'Product has been updated');
     }
 
@@ -174,13 +156,6 @@ class ProductController extends Controller
         $product = Product::find($id);
         $product->delete();
         return redirect()->back()->with('message', 'Product has been deleted');
-
     }
 
-    // Categoy
-    public function category(){
-        return 'abc';
-        $categories = [];
-        return view('admin.product.category', compact('categories'));
-    }
 }
