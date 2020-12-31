@@ -41,6 +41,18 @@
                     <input type="text" name="stock" id="stock" class="form-control" value="{{$product->stock}}">
                 </div>
                 <div class="form-group">
+                    <label for="category">Categories</label>
+                    <select multiple class="form-control" name="categories[]" required>
+                        @foreach ($categories as $category)
+                            @if (in_array($category->id, $categoryIds))
+                                <option value="{{$category->id}}" selected>{{$category->title}}</option>
+                            @else
+                                <option value="{{$category->id}}">{{$category->title}}</option>
+                            @endif
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="vendor">Vendor</label>
                     <select class="form-control" name="vendor_id">
                         @foreach ($vendors as $vendor)

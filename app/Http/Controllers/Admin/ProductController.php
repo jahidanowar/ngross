@@ -125,10 +125,16 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit($id)
     {
+        $categories = Category::all();
         $vendors = User::where('user_type', 'vendor')->get();
-        return view('admin.product.edit', ['product' => $product, 'vendors' => $vendors]);
+        $product = Product::where('id', $id)->with('categories')->first();
+        $categoryIds = [];
+        foreach($product->categories as $category){
+            $categoryIds[] = $category->id;
+        }
+        return view('admin.product.edit', ['product' => $product, 'vendors' => $vendors, 'categories'=>$categories, 'categoryIds'=>$categoryIds]);
     }
 
     /**
@@ -147,9 +153,14 @@ class ProductController extends Controller
             'vendor_id' => 'required'
         ]);
 
-        Product::where('id', $id)->update($request->only(['title', 'price', 'stock', 'vendor_id']));
+        $product = Product::where('id', $id)->update($request->only(['title', 'price', 'stock', 'vendor_id']));
 
-        return redirect()->back()->with('message', 'Product has been updated');
+        if($request->categories && $product){
+            $product = Product::find($id);
+            $product->categories()->sync($request->categories);
+        }
+
+        return redirect()->route('product.index')->with('message', 'Product has been updated');
     }
 
     /**
