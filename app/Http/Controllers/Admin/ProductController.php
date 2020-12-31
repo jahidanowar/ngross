@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -152,5 +153,12 @@ class ProductController extends Controller
         $product->delete();
         return redirect()->back()->with('message', 'Product has been deleted');
 
+    }
+
+    // Categoy
+    public function category(){
+        return 'abc';
+        $categories = [];
+        return view('admin.product.category', compact('categories'));
     }
 }

@@ -55,10 +55,18 @@
         <hr class="sidebar-divider">
 
         <li class="nav-item {{ Nav::isRoute('product.index') }}">
-            <a class="nav-link" href="{{ route('product.index') }}">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                 <i class="fas fa-tag"></i>
                 <span>{{ __('Product') }}</span>
             </a>
+            <div id="collapseTwo" class="collapse">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Manage Products:</h6>
+                    <a class="collapse-item" href="{{ route('product.index') }}">View All Products</a>
+                    <a class="collapse-item" href="{{ route('product.create') }}">Add New Product</a>
+                    <a class="collapse-item" href="{{ route('category.index') }}">Categories</a>
+                </div>
+            </div>
         </li>
 
         <li class="nav-item {{ Nav::isRoute('order.index') }}">
