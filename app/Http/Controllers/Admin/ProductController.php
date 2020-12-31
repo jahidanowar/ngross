@@ -76,7 +76,7 @@ class ProductController extends Controller
             'price' => 'required|numeric',
             'stock' => 'required|numeric',
             'image' => 'required|file|mimes:png,jpg,jpeg|max:150',
-            'vendor_id' => 'required',
+            'vendor_id' => 'required|numeric|min:1',
         ]);
 
         // dd($request->image);
@@ -88,10 +88,10 @@ class ProductController extends Controller
             'title' => $request->title,
             'price' => $request->price,
             'stock' => $request->stock,
-            'vendor_id' => $request->vendor_id,
             'image' => $imagePath,
             'slug' => $slug,
-            'description' => ''
+            'description' => '',
+            'vendor_id' => $request->vendor_id,
         ]);
         return redirect()->back()->with('message', 'Product has been created');
     }

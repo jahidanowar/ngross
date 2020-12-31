@@ -19,9 +19,9 @@ class CreateProductsTable extends Migration
             $table->string('title');
             $table->string('price');
             $table->string('discounted_price')->nullable();
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->string('image')->nullable();
-            $table->bigInteger('vendor_id')->nullable();
+            $table->foreignId('vendor_id')->constrained('users');
             $table->timestamps();
         });
     }
