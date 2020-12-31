@@ -33,3 +33,4 @@ Route::resource('category', CategoryController::class)->except(['show', 'create'
 Route::resource('order', OrderController::class);
 Route::resource('user', UserController::class);
 Route::get('getproductlist', [ProductController::class, 'getProducts'])->name('product.list');
+Route::get('getuserlist', [userController::class, 'getusers'])->name('user.list');
