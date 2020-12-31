@@ -75,21 +75,23 @@ class ProductController extends Controller
             'title' => 'required|string',
             'price' => 'required|numeric',
             'stock' => 'required|numeric',
-            'image' => 'required|file|max:150',
+            'image' => 'required|file|mimes:png,jpg,jpeg|max:150',
             'vendor_id' => 'required',
         ]);
 
-
-        $imagePath = $request->file('image')->store('product/'. Str::random(10).$request->image->extension());
+        // dd($request->image);
+        $imagePath = $request->file('image')->store('public/product');
+        // return dd($imagePath);
         $slug = Str::slug($request->title);
 
         $product = Product::create([
             'title' => $request->title,
             'price' => $request->price,
             'stock' => $request->stock,
-            'vedor_id' => $request->vedor_id,
+            'vendor_id' => $request->vendor_id,
             'image' => $imagePath,
             'slug' => $slug,
+            'description' => ''
         ]);
         return redirect()->back()->with('message', 'Product has been created');
     }

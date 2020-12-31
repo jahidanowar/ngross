@@ -22,6 +22,7 @@ class Product extends Model
         'description',
         'image',
         'vendor_id',
+        'stock',
 
     ];
 
