@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -48,7 +49,16 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::find($id);
+
+        $products = [];
+
+        if($user && $user->user_type == "vendor"){
+            $products = $user->products;
+        }
+
+        return view('admin.user.details', compact(['user', 'products']));
+
     }
 
     /**
