@@ -51,6 +51,14 @@
                         @endforeach
                     </select>
                 </div>
+                <div class="form-group">
+                    <label for="category">Categories</label>
+                    <select multiple class="form-control" name="categories[]" required>
+                        @foreach ($categories as $category)
+                            <option value="{{$category->id}}">{{$category->title}}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <button type="submit" class="btn btn-primary btn-block">Create</button>
             </form>
         </div>

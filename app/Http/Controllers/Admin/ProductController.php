@@ -32,7 +32,7 @@ class ProductController extends Controller
     public function getProducts(Request $request)
     {
         if ($request->ajax()) {
-            $data = Product::with('user')->latest()->get();
+            $data = Product::with('user')->with('categories')->latest()->get();
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -47,7 +47,12 @@ class ProductController extends Controller
                     ';
                     return $actionBtn;
                 })
-                ->rawColumns(['action'])
+                ->addColumn('categories', function (Product $product) {
+                    return $product->categories->map(function($category) {
+                        return "<span class='badge badge-primary mr-2'>". $category->title;
+                    })->implode('</span>');
+                })
+                ->rawColumns(['action', 'categories'])
                 ->editColumn('price', '₹ {{$price}}')
                 ->make(true);
         }
@@ -61,7 +66,8 @@ class ProductController extends Controller
     public function create()
     {
         $vendors = User::where('user_type', 'vendor')->get();
-        return view('admin.product.create', compact('vendors'));
+        $categories = Category::orderBy('title')->get();
+        return view('admin.product.create', ['vendors' => $vendors, 'categories' => $categories]);
     }
 
     /**
@@ -94,6 +100,11 @@ class ProductController extends Controller
             'description' => '',
             'vendor_id' => $request->vendor_id,
         ]);
+
+        if($request->categories && !empty($request->categories)){
+            $product->categories()->sync($request->categories);
+        }
+
         return redirect()->back()->with('message', 'Product has been created');
     }
 

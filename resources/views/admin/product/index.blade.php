@@ -35,6 +35,7 @@
                         <th>Title</th>
                         <th>Price</th>
                         <th>Stock</th>
+                        <th>Categories</th>
                         <th>Vendor</th>
                         <th>Action</th>
                     </tr>
@@ -64,12 +65,11 @@ $(document).ready(function() {
             {data: 'title', name: 'title'},
             {data: 'price', name: 'price'},
             {data: 'stock', name: 'stock'},
+            {data: 'categories', name: 'categories.title'},
             {data: 'user.name', name: 'vendor'},
             {
                 data: 'action',
                 name: 'action',
-                orderable: true,
-                searchable: true
             },
         ]
     });
