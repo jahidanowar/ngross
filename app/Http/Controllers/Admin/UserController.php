@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -51,13 +52,15 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
-        $products = [];
-
         if($user && $user->user_type == "vendor"){
-            $products = $user->products;
+            $orders = $user->vendorOrders();
+        }elseif($user->user_type == "user"){
+            $orders = Order::where('user_id', $user->id)->with('products')->orderBy('created_at', 'ASC')->get();
         }
 
-        return view('admin.user.details', compact(['user', 'products']));
+        // dd($orders);
+
+        return view('admin.user.details', compact(['user', 'orders']));
 
     }
 
@@ -99,7 +102,8 @@ class UserController extends Controller
     public function getusers(Request $request){
 
         if ($request->ajax()) {
-            $data = User::latest()->get();
+            $data = User::whereRaw('is_admin != 1')->latest()->get();
+
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
