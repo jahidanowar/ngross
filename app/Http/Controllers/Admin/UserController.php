@@ -28,7 +28,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.user.create');
     }
 
     /**
@@ -39,7 +39,33 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|alpha',
+            'email' => 'required|email|unique:users',
+            'phone' => 'required|unique:users',
+            'password' => 'required|confirmed|min:6',
+        ]);
+
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        switch($request->user_type){
+            case "admin":
+                $user->is_admin = 1;
+                break;
+            case "vendor":
+                $user->user_type = "vendor";
+                break;
+            case "user":
+                $user->user_type = "user";
+                break;
+        }
+        $user->password = bcrypt($request->password);
+
+        if($user->save()){
+            return redirect()->back()->with('message', 'User has been added!');
+        }
     }
 
     /**
