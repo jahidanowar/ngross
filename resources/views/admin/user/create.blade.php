@@ -47,6 +47,10 @@
                     <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" required>
                 </div>
                 <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" name="address" id="address" class="form-control" required>
+                </div>
+                <div class="form-group">
                     <label for="user_type">User Type</label>
                     <select name="user_type" id="user_type" class="form-control">
                         <option value="user">User</option>

@@ -44,12 +44,14 @@ class UserController extends Controller
             'email' => 'required|email|unique:users',
             'phone' => 'required|unique:users',
             'password' => 'required|confirmed|min:6',
+            'address' => 'required',
         ]);
 
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
+        $user->address = $request->address;
         switch($request->user_type){
             case "admin":
                 $user->is_admin = 1;
