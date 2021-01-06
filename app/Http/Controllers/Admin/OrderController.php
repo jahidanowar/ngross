@@ -72,7 +72,15 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'status' => 'required'
+        ]);
+
+        $order = Order::find($id);
+        $order->status = $request->status;
+        $order->update();
+
+        return redirect()->back()->with('message', "Order Status has been updated!");
     }
 
     /**

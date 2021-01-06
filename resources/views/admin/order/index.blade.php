@@ -47,7 +47,20 @@
                             <td>₹{{$order->total_amount }}</td>
                             <td>{{$order->user->name}}</td>
                             <td>{{$order->user->address}}</td>
-                            <td>{{$order->status}}</td>
+                            <td>
+                                <span class="badge badge-info">{{$order->status}}</span>
+                                <form action="{{route('order.update', $order->id)}}" method="post">
+                                    @csrf
+                                    @method('patch')
+                                    <select name="status" id="status" class="form-control form-control-sm">
+                                        <option value="Order Placed">Order Placed</option>
+                                        <option value="Order Shipped">Order Shipped</option>
+                                        <option value="Order Delivered">Order Delivered</option>
+                                        <option value="Order Canceled">Order Canceled</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-primary">Change</button>
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -67,6 +80,7 @@ $(document).ready(function() {
     $('#dataTable').DataTable();
 
 });
+
 
 </script>
 @endpush
