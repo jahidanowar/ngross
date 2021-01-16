@@ -100,4 +100,10 @@ class User extends Authenticatable
         }
         return $result;
     }
+
+    public function vendors(){
+        if($this->user_type === "manager"){
+            return $this->hasMany(User::class, 'manager_id');
+        }
+    }
 }
