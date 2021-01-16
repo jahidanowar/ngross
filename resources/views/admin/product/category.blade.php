@@ -26,11 +26,15 @@
                 <h6 class="m-0 font-weight-bold text-primary">Add New Category</h6>
             </div>
             <div class="card-body">
-                <form method="POST" action="{{route('category.store')}}">
+                <form method="POST" action="{{route('category.store')}}" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label for="title">Title</label>
                         <input type="text" name="title" id="title" class="form-control" value="{{ old('title') }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Image</label>
+                        <input type="file" name="image" id="image" class="form-control" value="{{ old('image') }}" required>
                     </div>
                     <button type="submit" class="btn btn-primary btn-block">Create</button>
                 </form>

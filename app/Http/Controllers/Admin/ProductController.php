@@ -82,7 +82,7 @@ class ProductController extends Controller
             'title' => 'required|string',
             'price' => 'required|numeric',
             'stock' => 'required|numeric',
-            'image' => 'required|file|mimes:png,jpg,jpeg|max:150',
+            'image' => 'required|file|mimes:png,jpg,jpeg,webp|max:150',
             'vendor_id' => 'required|numeric|min:1',
         ]);
         $imagePath = $request->file('image')->store('public/product');

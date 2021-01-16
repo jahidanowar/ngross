@@ -31,11 +31,15 @@ class CategoryController extends Controller
     {
         $request->validate([
             'title' => 'required',
+            'image' => 'file|mimes:png,jpg,jpeg,webp|max:150'
         ]);
+
+        $imagePath = $request->file('image')->store('public/category');
 
         $data = [
             'title' => $request->title,
             'slug'  => Str::slug($request->title),
+            'image' => $imagePath
         ];
 
         Category::create($data);
