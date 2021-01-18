@@ -40,7 +40,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|alpha',
+            'name' => 'required',
             'email' => 'required|email|unique:users',
             'phone' => 'required|unique:users',
             'password' => 'required|confirmed|min:6',
@@ -123,7 +123,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+        $user->delete();
+        return redirect()->back()->with('message', 'User has been deleted');
     }
 
     //Return User List

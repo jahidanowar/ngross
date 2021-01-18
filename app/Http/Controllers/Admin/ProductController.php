@@ -54,6 +54,7 @@ class ProductController extends Controller
                 })
                 ->rawColumns(['action', 'categories'])
                 ->editColumn('price', '₹ {{$price}}')
+                ->editColumn('stock', '{{$stock == 0 ? "Out of stock" : $stock}}')
                 ->make(true);
         }
     }

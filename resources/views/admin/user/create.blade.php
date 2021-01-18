@@ -48,7 +48,7 @@
                 </div>
                 <div class="form-group">
                     <label for="address">Address</label>
-                    <input type="text" name="address" id="address" class="form-control" required>
+                    <input type="text" name="address" id="address" class="form-control" required value="{{old('address')}}">
                 </div>
                 <div class="form-group">
                     <label for="user_type">User Type</label>
