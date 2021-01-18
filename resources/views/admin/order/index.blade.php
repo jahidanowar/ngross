@@ -6,7 +6,7 @@
 
 @section('main-content')
     <!-- Page Heading -->
-    <h1 class="h3 text-gray-800">{{ __('Products') }}</h1>
+    <h1 class="h3 text-gray-800">{{ __('Orders') }}</h1>
     <a href="{{route('order.index')}}" class="badge badge-primary mb-4">View Vendor Orders</a>
 
     @if ($errors->any())
