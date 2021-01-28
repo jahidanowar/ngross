@@ -61,8 +61,16 @@ class UserController extends Controller
             return redirect()->back()->with('message', 'You have no permission to manage this vendor');
         }
 
-        $vendorOrders = $user->vendorOrders();
-        // dd($vendorOrders);
+        $vendorOrders = $user->products()->with('orders')->get();
+
+
+        foreach ($vendorOrders as $vendorOrder) {
+            $quantity = 0;
+            foreach ($vendorOrder->orders as $order) {
+                $quantity +=  $order->pivot->quantity;
+            }
+            $vendorOrder->quantity = $quantity;
+        }
         return view('manager.user.show', compact('vendorOrders', 'user'));
     }
 

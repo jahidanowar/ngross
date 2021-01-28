@@ -33,9 +33,9 @@
         </div>
         <div class="card-body">
             @foreach ($vendorOrders as $vendorOrder)
-                <div id="viewOrder" data-orders="{{$vendorOrder['orders']}}" class="shadow p-3 mb-3 rounded border">
-                    <h4>{{$vendorOrder['product_name']}}</h4>
-                    <p>Quanity: {{$vendorOrder['quantity']}}</p>
+                <div id="viewOrder" data-orders="{{$vendorOrder->orders}}" class="shadow p-3 mb-3 rounded border">
+                    <h4>{{$vendorOrder->title}}</h4>
+                    <p>Quanity: {{$vendorOrder->quantity}}</p>
                 </div>
             @endforeach
         </div>
@@ -52,7 +52,7 @@
             </button>
             </div>
             <div class="modal-body">
-
+                <div id="result"></div>
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -66,7 +66,35 @@
 @push('scripts')
 <script>
     $(".card-body").on('click', '#viewOrder', function(){
-        console.log($(this).data('orders'))
+        var rows = "";
+        $(this).data('orders').forEach(order => {
+            rows += `
+                <tr>
+                    <td>${order.order_number}</td>
+                    <td>${order.pivot.quantity}</td>
+                    <td>${order.status}</td>
+                    <td><a href="/manager/order/${order.id}" class="btn btn-primary">View Order</a></td>
+                </tr>
+            `;
+        });
+
+        var table = `
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Quantity</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${rows}
+                </tbody>
+            </table>
+        `;
+            // console.log(table)
+        $("#result").html(table)
         $("#orderModal").modal('show')
     })
 </script>

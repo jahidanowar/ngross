@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
@@ -74,16 +76,28 @@ class User extends Authenticatable
         }
     }
 
-    public function vendorOrders()
+    public function vendorOrders($byHour = null)
     {
+        // dd($this->products()->load('orders'));
         // https://stackoverflow.com/questions/54444592/laravel-eloquent-get-a-record-every-hour
         //https://laracasts.com/discuss/channels/laravel/count-rows-grouped-by-hours-of-the-day
         $result = [];
         foreach ($this->products as $product) {
-            $orders = OrderProduct::where([
-                ['product_id', '=', $product->id],
-                ['status', '=', 0],
-            ])->orderBy('created_at', 'ASC')->get();
+            // dd(Order::with('products')->get()->contains(Product::find($product->id)));
+
+            if($byHour){
+                $orders = OrderProduct::where([
+                    ['product_id', '=', $product->id],
+                    ['status', '=', 0],
+                    ['created_at', '>',  Carbon::now()->subHours($byHour)->toDateTimeString()]
+                ])->get();
+            }else{
+                $orders = OrderProduct::where([
+                    ['product_id', '=', $product->id],
+                    ['status', '=', 0],
+                ])->orderBy('created_at', 'ASC')->get();
+            }
+
             if (count($orders) > 0) {
                 $quantity = 0;
                 foreach ($orders as $order) {

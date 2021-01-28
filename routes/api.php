@@ -54,15 +54,6 @@ Route::post('/logout', function (Request $request) {
 
 })->middleware('auth:sanctum');
 
-
-//Guared by Sanctum auth
-//Order Route
-// Route::get('/order', [OrderController::class, 'index'])->middleware('auth:sanctum');
-// Route::get('/order/:id/show', [OrderController::class, 'show'])->middleware('auth:sanctum');
-// Route::patch('/order/:id/update', [OrderController::class, 'update'])->middleware('auth:sanctum');
-// Route::post('/order/store', [OrderController::class, 'store'])->middleware('auth:sanctum');
-
-
 Route::resource('/order', OrderController::class)->middleware('auth:sanctum');
 
 Route::get('/profile', function () {

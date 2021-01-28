@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Models\OrderProduct;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -48,9 +50,11 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Order $order)
     {
-        //
+        $products = $order->products;
+        $user = $order->user;
+        return view('manager.order.show', compact('order', 'products', 'user'));
     }
 
     /**
@@ -71,9 +75,22 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Order $order)
     {
-        //
+        $request->validate([
+            'status' => 'required'
+        ]);
+
+        $order->update($request->only(['status']));
+
+        $orderProducts = OrderProduct::where('order_id', $order->id)->get();
+
+        foreach ($orderProducts as $orderProduct) {
+            // dd($orderProduct);
+            OrderProduct::where('order_id', $order->id)->update(['status'=>1]);
+        }
+
+        return redirect()->back();
     }
 
     /**

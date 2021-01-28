@@ -13,8 +13,11 @@ class VendorController extends Controller
         return auth()->user()->products()->orderBy('id', 'DESC')->get();
     }
     //Return All the orders that related to vendor
-    public function orders()
+    public function orders(Request $request)
     {
+        if($request->query('byhour')){
+            return auth()->user()->vendorOrders($request->query('byhour'));
+        }
         return auth()->user()->vendorOrders();
     }
 
