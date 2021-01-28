@@ -40,7 +40,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|alpha',
+            'name' => 'required',
             'email' => 'required|email|unique:users',
             'phone' => 'required|unique:users',
             'password' => 'required|confirmed|min:6',
@@ -112,7 +112,26 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required|numeric',
+        ]);
+
+        if($user){
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->phone = $request->phone;
+            $user->address = $request->address;
+
+            $user->save();
+
+            return redirect()->back()->with('message', 'User information has been updated');
+        } else{
+            return redirect()->back()->with('message', 'User not found');
+        }
     }
 
     /**
@@ -123,7 +142,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+        $user->delete();
+        return redirect()->back()->with('message', 'User has been deleted');
     }
 
     //Return User List
@@ -137,7 +158,6 @@ class UserController extends Controller
                 ->addColumn('action', function ($row) {
                     $actionBtn = '
                     <a href="' . route('user.show', $row->id) . '" class="edit btn btn-primary">View</a>
-                    <a href="' . route('user.edit', $row->id) . '" class="edit btn btn-info">Edit</a>
 
                     <form action="' . route('user.destroy', $row->id) . '" method="POST" onsubmit="return confirm(\' Are you sure? \')" style="display: inline-block;">
                         <input type="hidden" name="_method" value="DELETE">

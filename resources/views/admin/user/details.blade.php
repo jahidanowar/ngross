@@ -102,7 +102,9 @@
                     <h6 class="m-0 font-weight-bold text-primary">User Info</h6>
                 </div>
                 <div class="card-body">
-                    <form action="#" method="post">
+                    <form action="{{route('user.update', $user->id)}}" method="post">
+                        @csrf
+                        @method('PATCH')
                         <div class="form-group">
                             <label for="Name">Name</label>
                             <input type="text" name="name" id="name" class="form-control" value="{{$user->name}}">
