@@ -47,6 +47,7 @@
         <!-- Divider -->
         <hr class="sidebar-divider">
 
+        @if (auth()->user()->is_admin)
         <li class="nav-item {{ Nav::isRoute('product.index') }}">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                 <i class="fas fa-tag"></i>
@@ -61,16 +62,17 @@
                 </div>
             </div>
         </li>
+        @endif
 
         <li class="nav-item {{ Nav::isRoute('order.index') }}">
-            <a class="nav-link" href="{{ route('order.index') }}">
+            <a class="nav-link" href="{{ auth()->user()->user_type === "manager" ? route('manager.order.index') : route('order.index') }}">
                 <i class="fas fa-cart-arrow-down"></i>
                 <span>{{ __('Order') }}</span>
             </a>
         </li>
 
         <li class="nav-item {{ Nav::isRoute('user.index') }}">
-            <a class="nav-link" href="{{ route('user.index') }}">
+            <a class="nav-link" href="{{ auth()->user()->user_type === "manager" ? route('manager.user.index') : route('user.index') }}">
                 <i class="fas fa-fw fa-user"></i>
                 <span>{{ __('User') }}</span>
             </a>

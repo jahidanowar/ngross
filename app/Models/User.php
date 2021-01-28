@@ -120,4 +120,10 @@ class User extends Authenticatable
             return $this->hasMany(User::class, 'manager_id');
         }
     }
+
+    public function users(){
+        if($this->user_type === "manager"){
+            return $this->hasMany(User::class, 'manager_id')->where('user_type', 'user');
+        }
+    }
 }

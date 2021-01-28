@@ -20,7 +20,18 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $user = auth()->user();
+        $users = $user->users()->with('orders')->get();
+
+        $orders = collect([]);
+        foreach ($users as $user) {
+            foreach ($user->orders as $order) {
+                $order->user = $user;
+                $orders->push($order);
+            }
+        }
+
+        return view('manager.order.index', compact('orders'));
     }
 
     /**

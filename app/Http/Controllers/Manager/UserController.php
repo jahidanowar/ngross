@@ -63,14 +63,27 @@ class UserController extends Controller
 
         $vendorOrders = $user->products()->with('orders')->get();
 
+        // $vendorOrders->each(function($vendorOrder){
+        //     $vendorOrder->orders()->filter(function($order){
+        //         return $order->status == "Order Completed";
+        //     })
+        // });
 
         foreach ($vendorOrders as $vendorOrder) {
             $quantity = 0;
-            foreach ($vendorOrder->orders as $order) {
-                $quantity +=  $order->pivot->quantity;
+            $orders = collect([]);
+
+            foreach ($vendorOrder->orders as $order){
+                if($order->status !== "Order Completed"){
+                    $quantity +=  $order->pivot->quantity;
+                    $orders->push($order);
+                }
             }
             $vendorOrder->quantity = $quantity;
+            $vendorOrder->orders = $orders;
         }
+
+        // dd($vendorOrders);
         return view('manager.user.show', compact('vendorOrders', 'user'));
     }
 

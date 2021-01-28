@@ -33,10 +33,13 @@
         </div>
         <div class="card-body">
             @foreach ($vendorOrders as $vendorOrder)
-                <div id="viewOrder" data-orders="{{$vendorOrder->orders}}" class="shadow p-3 mb-3 rounded border">
-                    <h4>{{$vendorOrder->title}}</h4>
-                    <p>Quanity: {{$vendorOrder->quantity}}</p>
-                </div>
+                {{-- {{dd($vendorOrder->unfullfilledOrders)}} --}}
+                @if ($vendorOrder->quantity > 0)
+                    <div id="viewOrder" data-orders="{{$vendorOrder->orders}}" class="shadow p-3 mb-3 rounded border">
+                        <h4>{{$vendorOrder->title}}</h4>
+                        <p>Quanity: {{$vendorOrder->quantity}}</p>
+                    </div>
+                @endif
             @endforeach
         </div>
     </div>
