@@ -74,7 +74,7 @@ class UserController extends Controller
             $orders = collect([]);
 
             foreach ($vendorOrder->orders as $order){
-                if($order->status !== "Order Completed"){
+                if($order->status !== "Order Delivered"){
                     $quantity +=  $order->pivot->quantity;
                     $orders->push($order);
                 }

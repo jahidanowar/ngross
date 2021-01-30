@@ -90,11 +90,11 @@
             </table>
         </div>
         <div class="text-center print-button pb-5 d-inline-flex justify-content-center">
-            @if ($order->status !== "Order Completed")
+            @if ($order->status !== "Order Delivered")
                 <form action="{{route('manager.order.update', $order->id)}}" method="POST">
                     @method('PATCH')
                     @csrf
-                    <input type="hidden" name="status" value="Order Completed">
+                    <input type="hidden" name="status" value="Order Delivered">
                     <button type="submit" class="btn btn-primary">Order Complete</button>
                 </form>
             @endif
