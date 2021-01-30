@@ -59,6 +59,14 @@
                         <option value="admin">Admin</option>
                     </select>
                 </div>
+                <div class="form-group" id="select_manager">
+                    <label for="manager">Select Manager</label>
+                    <select name="manager" id="manager" class="form-control">
+                        @foreach ($managers as $manager)
+                            <option value="{{$manager->id}}">{{$manager->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <button type="submit" class="btn btn-primary btn-block">Create</button>
             </form>
         </div>
@@ -69,6 +77,12 @@
 @push('scripts')
 <!-- Page level plugins -->
 <script>
-
+$('#user_type').on('change', function(){
+    if($(this).val() === "manager" || $(this).val() === "admin"){
+        $("#select_manager").hide();
+    }else{
+        $("#select_manager").show();
+    }
+})
 </script>
 @endpush

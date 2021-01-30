@@ -28,7 +28,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.user.create');
+        $managers = User::where('user_type', 'manager')->get();
+
+        return view('admin.user.create', compact('managers'));
     }
 
     /**
@@ -52,6 +54,8 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->address = $request->address;
+        $user->manager_id = $request->manager ? $request->manager : NULL;
+
         switch($request->user_type){
             case "admin":
                 $user->is_admin = 1;
@@ -61,6 +65,9 @@ class UserController extends Controller
                 break;
             case "user":
                 $user->user_type = "user";
+                break;
+            case "manager":
+                $user->user_type = "manager";
                 break;
         }
         $user->password = bcrypt($request->password);
@@ -156,15 +163,19 @@ class UserController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $actionBtn = '
-                    <a href="' . route('user.show', $row->id) . '" class="edit btn btn-primary">View</a>
-
+                    $actionBtn = $row->user_type === "manager" ? '
                     <form action="' . route('user.destroy', $row->id) . '" method="POST" onsubmit="return confirm(\' Are you sure? \')" style="display: inline-block;">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="'.csrf_token().'">
                         <input type="submit" class="btn btn-xs btn-danger" value="Delete">
                     </form>
-
+                    ' : '
+                    <a href="' . route('user.show', $row->id) . '" class="edit btn btn-primary">View</a>
+                    <form action="' . route('user.destroy', $row->id) . '" method="POST" onsubmit="return confirm(\' Are you sure? \')" style="display: inline-block;">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="'.csrf_token().'">
+                        <input type="submit" class="btn btn-xs btn-danger" value="Delete">
+                    </form>
                     ';
                     return $actionBtn;
                 })
@@ -175,6 +186,9 @@ class UserController extends Controller
                             break;
                         case "user":
                             return "User";
+                            break;
+                        case "manager":
+                            return "Manager";
                             break;
                         default:
                             return "Admin";
