@@ -41,6 +41,6 @@ Route::get('getuserlist', [userController::class, 'getusers'])->name('user.list'
 // });
 
 Route::prefix('manager')->name('manager.')->group(function(){
-    Route::resource('user', App\Http\Controllers\manager\UserController::class);
-    Route::resource('order', App\Http\Controllers\manager\OrderController::class);
+    Route::resource('user', App\Http\Controllers\Manager\UserController::class);
+    Route::resource('order', App\Http\Controllers\Manager\OrderController::class);
 });
