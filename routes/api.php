@@ -29,7 +29,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::resource('product', ProductController::class);
 Route::resource('category', CategoryController::class);
-Route::get('/serach', SearchController::class)->middleware('auth:sanctum')->name('product.serach');
+Route::get('/search', SearchController::class)->middleware('auth:sanctum')->name('product.search');
 
 Route::post('/login', function (Request $request) {
 
