@@ -33,8 +33,8 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        //
+    {   
+        return view('manager.user.create');
     }
 
     /**
@@ -45,7 +45,34 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'phone' => 'required|unique:users',
+            'password' => 'required|confirmed|min:6',
+            'address' => 'required',
+        ]);
+
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+        $user->manager_id = auth()->user()->id;
+
+        switch($request->user_type){
+            case "vendor":
+                $user->user_type = "vendor";
+                break;
+            case "user":
+                $user->user_type = "user";
+                break;
+        }
+        $user->password = bcrypt($request->password);
+
+        if($user->save()){
+            return redirect()->back()->with('message', 'User has been added!');
+        }
     }
 
     /**
