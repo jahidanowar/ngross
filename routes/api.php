@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
 use App\Models\User;
@@ -28,6 +29,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::resource('product', ProductController::class);
 Route::resource('category', CategoryController::class);
+
+Route::get('/serach', SearchController::class)->name('product.serach');
 
 Route::post('/login', function (Request $request) {
 
