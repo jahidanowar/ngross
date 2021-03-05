@@ -136,9 +136,19 @@ class ProductController extends Controller
             'title' => 'required|string',
             'price' => 'required|numeric',
             'stock' => 'required|numeric',
+            'image' => 'required|file|mimes:png,jpg,jpeg,webp|max:150',
             'vendor_id' => 'required'
         ]);
-        $product = Product::where('id', $id)->update($request->only(['title', 'price', 'stock', 'vendor_id']));
+        $imagePath = $request->file('image')->store('public/product');
+        $product = Product::where('id', $id)->update(
+            [
+                'title' => $request->title,
+                'price' => $request->price,
+                'stock' => $request->stock,
+                'image' => $imagePath,
+                'vendor_id' => $request->vendor_id,
+            ]
+        );
         if($request->categories && $product){
             $product = Product::find($id);
             $product->categories()->sync($request->categories);

@@ -23,7 +23,7 @@
             <h6 class="m-0 font-weight-bold text-primary">All Products</h6>
         </div>
         <div class="card-body">
-            <form method="POST" action="{{route('product.update', $product->id)}}">
+            <form method="POST" action="{{route('product.update', $product->id)}}" enctype="multipart/form-data">
                 @csrf
                 @method('PATCH')
 
@@ -38,6 +38,11 @@
                 <div class="form-group">
                     <label for="stock">Stock</label>
                     <input type="text" name="stock" id="stock" class="form-control" value="{{$product->stock}}">
+                </div>
+                <div class="form-group">
+                    <label for="image">Image</label>
+                    <input type="file" name="image" id="image" class="form-control" value="{{ old('image') }}  " required>
+                    <img src="{{$product->image}}" alt="Current Image" width="250px">
                 </div>
                 <div class="form-group">
                     <label for="category">Categories</label>
