@@ -41,7 +41,8 @@
                 </div>
                 <div class="form-group">
                     <label for="image">Image</label>
-                    <input type="file" name="image" id="image" class="form-control" value="{{ old('image') }}  " required>
+                    <input type="file" name="image" id="image" class="form-control" value="{{ old('image') }}">
+                    <input type="hidden" name="oldImage" value="{{$product->image}}">
                     <img src="{{$product->image}}" alt="Current Image" width="250px">
                 </div>
                 <div class="form-group">

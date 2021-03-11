@@ -136,21 +136,24 @@ class ProductController extends Controller
             'title' => 'required|string',
             'price' => 'required|numeric',
             'stock' => 'required|numeric',
-            'image' => 'required|file|mimes:png,jpg,jpeg,webp|max:150',
+            'image' => 'nullable|file|mimes:png,jpg,jpeg,webp|max:150',
             'vendor_id' => 'required'
         ]);
-        $imagePath = $request->file('image')->store('public/product');
-        $product = Product::where('id', $id)->update(
-            [
-                'title' => $request->title,
-                'price' => $request->price,
-                'stock' => $request->stock,
-                'image' => $imagePath,
-                'vendor_id' => $request->vendor_id,
-            ]
-        );
+
+        $product = Product::find($id);
+
+        $product->title = $request->title;
+        $product->price = $request->price;
+        $product->stock = $request->stock;
+        $product->vendor_id = $request->vendor_id;
+
+        if($request->file('image')){
+            $product->image = $request->file('image')->store('public/product');
+        }
+
+        $product->save();
+
         if($request->categories && $product){
-            $product = Product::find($id);
             $product->categories()->sync($request->categories);
         }
         return redirect()->route('product.index')->with('message', 'Product has been updated');
